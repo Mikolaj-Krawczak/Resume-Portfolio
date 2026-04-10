@@ -1,15 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ParticleNetwork from '../components/ParticleNetwork.astro';
 ---
 
 <Layout>
+	<ParticleNetwork />
 	<main class="resume-page">
 		<div class="resume-inner">
 			<h1 class="resume-heading">Resume</h1>
 			<p class="resume-lead">This is the next section of my portfolio.</p>
 			<p class="resume-back">
 				<a href="/" class="resume-back-link">
-					<span class="resume-back-arrow" aria-hidden="true">←  Back to home</span>
+					<span class="resume-back-arrow" aria-hidden="true">← <span class="resume-back-text">Back to home</span> </span>
 					
 				</a>
 			</p>
@@ -21,10 +23,12 @@ import Layout from '../layouts/Layout.astro';
 	/* Pełna szerokość tła — brak białych pasów przy wąskiej kolumnie tekstu */
 	.resume-page {
 		box-sizing: border-box;
+		position: relative;
+		z-index: 1;
 		min-height: 100vh;
 		width: 100%;
 		padding: clamp(1.5rem, 4vw, 3rem);
-		background-color: #101010;
+		background-color: transparent;
 		color: #ffffff;
 		font-family: var(--font-sans);
 	}
