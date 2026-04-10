@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="resume-page">
+		<h1 class="resume-heading">Resume</h1>
+		<p class="resume-lead">This is the next section of your portfolio. Add experience, projects, and contact here.</p>
+		<p class="resume-back">
+			<a href="/">← Back to home</a>
+		</p>
+	</main>
+</Layout>
+
+<style>
+	.resume-page {
+		box-sizing: border-box;
+		min-height: 100%;
+		padding: clamp(1.5rem, 4vw, 3rem);
+		max-width: 720px;
+		margin: 0 auto;
+		background-color: #101010;
+		color: #ffffff;
+		font-family: var(--font-sans);
+	}
+
+	.resume-heading {
+		margin: 0 0 1rem;
+		font-size: clamp(1.75rem, 4vw, 2.25rem);
+		font-weight: 600;
+	}
+
+	.resume-lead {
+		margin: 0 0 2rem;
+		line-height: 1.6;
+		opacity: 0.9;
+	}
+
+	.resume-back a {
+		color: #ffffff;
+		opacity: 0.85;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.resume-back a:hover {
+		opacity: 1;
+	}
+</style>

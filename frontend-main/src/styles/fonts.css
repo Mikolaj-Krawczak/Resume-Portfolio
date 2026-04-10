@@ -1,0 +1,24 @@
+/*
+ * Halfre — public/fonts/halfre.woff2
+ * Surgena Semibold — public/fonts/surgenapersonaluseonlysembd-q2qwd.woff2
+ */
+
+@font-face {
+	font-family: 'Halfre';
+	src: url('/fonts/halfre.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Surgena';
+	src: url('/fonts/surgenapersonaluseonlysembd-q2qwd.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--font-sans: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+}
