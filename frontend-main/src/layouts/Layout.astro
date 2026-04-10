@@ -22,7 +22,10 @@ import '../styles/fonts.css';
 	body {
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		/* 100vh — stabilna baza dla centrowania (min-height % zepsuł się bez height na rodzicu) */
+		min-height: 100vh;
 		font-family: var(--font-sans);
+		background-color: #101010;
+		color: #ffffff;
 	}
 </style>

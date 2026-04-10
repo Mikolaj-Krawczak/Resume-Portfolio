@@ -4,24 +4,34 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 	<main class="resume-page">
-		<h1 class="resume-heading">Resume</h1>
-		<p class="resume-lead">This is the next section of your portfolio. Add experience, projects, and contact here.</p>
-		<p class="resume-back">
-			<a href="/">← Back to home</a>
-		</p>
+		<div class="resume-inner">
+			<h1 class="resume-heading">Resume</h1>
+			<p class="resume-lead">This is the next section of my portfolio.</p>
+			<p class="resume-back">
+				<a href="/" class="resume-back-link">
+					<span class="resume-back-arrow" aria-hidden="true">←  Back to home</span>
+					
+				</a>
+			</p>
+		</div>
 	</main>
 </Layout>
 
 <style>
+	/* Pełna szerokość tła — brak białych pasów przy wąskiej kolumnie tekstu */
 	.resume-page {
 		box-sizing: border-box;
-		min-height: 100%;
+		min-height: 100vh;
+		width: 100%;
 		padding: clamp(1.5rem, 4vw, 3rem);
-		max-width: 720px;
-		margin: 0 auto;
 		background-color: #101010;
 		color: #ffffff;
 		font-family: var(--font-sans);
+	}
+
+	.resume-inner {
+		max-width: 720px;
+		margin: 0 auto;
 	}
 
 	.resume-heading {
@@ -36,14 +46,43 @@ import Layout from '../layouts/Layout.astro';
 		opacity: 0.9;
 	}
 
-	.resume-back a {
+	.resume-back {
+		margin: 0;
+	}
+
+	.resume-back-link {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.2em;
+		text-decoration: none;
 		color: #ffffff;
 		opacity: 0.85;
+	}
+
+	/* Strzałka i tekst zawsze białe także po odwiedzeniu linku (:visited) */
+	.resume-back-link:visited,
+	.resume-back-link:visited .resume-back-arrow,
+	.resume-back-link:visited .resume-back-text {
+		color: #ffffff;
+	}
+
+	.resume-back-text {
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
 	}
 
-	.resume-back a:hover {
+	.resume-back-link:hover {
 		opacity: 1;
+	}
+
+	.resume-back-link:hover .resume-back-text {
+		text-decoration-thickness: from-font;
+	}
+
+	.resume-back-link:focus-visible {
+		outline: 2px solid #ffffff;
+		outline-offset: 4px;
+		border-radius: 2px;
 	}
 </style>

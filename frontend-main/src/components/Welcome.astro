@@ -10,7 +10,7 @@
 			</h1>
 			<!-- Podtytuł tylko na szerokość tekstu; chevron obok, od góry w linii z „resume”, znacznie wyższy -->
 			<div class="hero-bottom-row">
-				<p class="hero-subtitle">this is my Porfolio resume</p>
+				<p class="hero-subtitle">this is my Portfolio & Resume</p>
 				<div class="hero-next-perspective">
 					<a
 						class="hero-next"
@@ -38,13 +38,15 @@
 			</div>
 		</div>
 		<div class="hero-photo-column">
-			<img
-				class="hero-photo"
-				src="/profilepic.jpg"
-				alt="Mikołaj — profile photo"
-				loading="eager"
-				fetchpriority="high"
-			/>
+			<div class="hero-photo-frame">
+				<img
+					class="hero-photo"
+					src="/profilepic.jpg"
+					alt="Mikołaj — profile photo"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</div>
 		</div>
 	</div>
 </div>
@@ -52,7 +54,8 @@
 <style>
 	.hero-page {
 		box-sizing: border-box;
-		min-height: 100%;
+		min-height: 100vh;
+		min-height: 100dvh;
 		width: 100%;
 		background-color: #101010;
 		display: flex;
@@ -203,13 +206,45 @@
 		padding: clamp(0.75rem, 2vw, 1.5rem);
 	}
 
-	/* Pełna klatka zdjęcia — bez cropu (cover + aspect-ratio obcinały włosy). */
+	/* Ramka + overlay w kolorze tła: miękkie przejście zamiast ostrej linii cropu / koszuli */
+	.hero-photo-frame {
+		position: relative;
+		width: 100%;
+		max-width: 100%;
+		border-radius: 12px;
+		overflow: hidden;
+		line-height: 0;
+	}
+
+	.hero-photo-frame::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 28%;
+		pointer-events: none;
+		border-radius: inherit;
+		background: linear-gradient(
+			to top,
+			#101010 0%,
+			rgba(16, 16, 16, 0.94) 12%,
+			rgba(16, 16, 16, 0.65) 32%,
+			rgba(16, 16, 16, 0.22) 58%,
+			transparent 100%
+		);
+	}
+
+	/* Lekkie wygaszenie lewego/prawego brzegu — mniej widać „ścianę” cropu */
 	.hero-photo {
 		display: block;
 		width: 100%;
 		max-width: 100%;
 		height: auto;
-		border-radius: 12px;
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+		mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+		-webkit-mask-size: 100% 100%;
+		mask-size: 100% 100%;
 	}
 
 	@media screen and (max-width: 768px) {
