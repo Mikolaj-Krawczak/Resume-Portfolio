@@ -1,10 +1,56 @@
 ---
 import ParticleNetwork from '../components/ParticleNetwork.astro';
 import Welcome from '../components/Welcome.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import EducationSection from '../components/sections/EducationSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
 	<ParticleNetwork />
-	<Welcome />
+	<main class="home-page" id="top">
+		<SiteHeader variant="home" />
+		<Welcome />
+		<div class="home-sections">
+			<div class="home-sections-inner">
+				<ExperienceSection />
+				<EducationSection />
+				<ProjectsSection />
+				<AboutSection />
+			</div>
+		</div>
+	</main>
 </Layout>
+
+<style is:global>
+	html {
+		scroll-padding-top: 5.5rem;
+	}
+</style>
+
+<style>
+	.home-page {
+		position: relative;
+		z-index: 1;
+		min-height: 100vh;
+		width: 100%;
+		color: #ffffff;
+		font-family: var(--font-sans);
+		font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+	}
+
+	.home-sections {
+		position: relative;
+		background-color: transparent;
+	}
+
+	.home-sections-inner {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: clamp(1.5rem, 4vw, 3rem);
+		padding-top: clamp(2rem, 5vw, 4rem);
+	}
+</style>

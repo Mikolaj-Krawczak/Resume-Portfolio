@@ -1,0 +1,230 @@
+---
+import { SECTION_SLUGS, SECTION_LABELS, type SectionSlug } from '../data/portfolioSections';
+
+/** home: klik → /resume/[slug]; resumeFull: kotwice # na pełnej stronie; resumeSingle: tylko jedna podstrona */
+export type SiteHeaderVariant = 'home' | 'resumeFull' | 'resumeSingle';
+
+interface Props {
+	variant: SiteHeaderVariant;
+	/** Dla resumeSingle — która sekcja jest aktualna (aria-current). */
+	activeSection?: SectionSlug;
+}
+
+const { variant, activeSection } = Astro.props;
+
+function hrefFor(slug: SectionSlug): string {
+	if (variant === 'resumeFull') return `#${slug}`;
+	return `/resume/${slug}`;
+}
+---
+
+<header class="site-header">
+	<div class="site-header-inner">
+		<a href="/" class="site-brand">MKravczak.com</a>
+		<nav class="site-nav" aria-label="Portfolio sections">
+			{
+				SECTION_SLUGS.map((slug) => (
+					<a
+						href={hrefFor(slug)}
+						class:list={{ 'is-active': variant === 'resumeSingle' && activeSection === slug }}
+						aria-current={variant === 'resumeSingle' && activeSection === slug ? 'page' : undefined}
+					>
+						{SECTION_LABELS[slug]}
+					</a>
+				))
+			}
+		</nav>
+		<div class="site-social">
+			<a
+				class="site-social-link"
+				href="https://github.com/Mikolaj-Krawczak"
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label="GitHub profile"
+			>
+				<svg class="site-social-icon" viewBox="0 0 24 24" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+					></path>
+				</svg>
+			</a>
+			<a
+				class="site-social-link"
+				href="https://www.linkedin.com/in/miko%C5%82aj-krawczak-aa88962b9/"
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label="LinkedIn profile"
+			>
+				<svg class="site-social-icon" viewBox="0 0 24 24" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.063 2.063 0 1.139-.925 2.065-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+					></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: rgba(16, 16, 16, 0.82);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.site-header-inner {
+		display: grid;
+		/* Środek: elastyczna kolumna (minmax 0), żeby nav nie wypychał układu w 2 wiersze. */
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: clamp(0.75rem, 2vw, 1.5rem);
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0.85rem clamp(1rem, 3vw, 2rem);
+	}
+
+	.site-brand {
+		justify-self: start;
+		font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+		font-weight: 600;
+		font-size: clamp(1.45rem, 2.85vw, 2rem);
+		letter-spacing: 0.02em;
+		color: #ffffff;
+		text-decoration: none;
+		transition:
+			opacity 0.25s ease,
+			transform 0.25s ease;
+	}
+
+	.site-brand:hover {
+		opacity: 0.92;
+		transform: translateY(-1px);
+	}
+
+	.site-nav {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(0.65rem, 1.6vw, 1.75rem);
+		justify-self: center;
+		min-width: 0;
+		max-width: 100%;
+		/* Jedna linia: przy braku miejsca przewijanie poziome zamiast łamania na drugi wiersz. */
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-x: contain;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.site-nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	.site-nav a {
+		font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+		font-weight: 600;
+		font-size: clamp(0.88rem, 1.45vw, 1.12rem);
+		color: rgba(255, 255, 255, 0.92);
+		text-decoration: none;
+		white-space: nowrap;
+		position: relative;
+		padding: 0.35em 0;
+		flex-shrink: 0;
+		letter-spacing: normal;
+		transition:
+			color 0.28s ease,
+			transform 0.28s ease;
+	}
+
+	.site-nav a.is-active {
+		color: #ffffff;
+	}
+
+	.site-nav a::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 0;
+		height: 2px;
+		background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), #ffffff);
+		transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.site-nav a.is-active::after {
+		width: 100%;
+	}
+
+	.site-nav a:hover {
+		color: #ffffff;
+		transform: translateY(-1px);
+	}
+
+	.site-nav a:hover::after {
+		width: 100%;
+	}
+
+	.site-nav a:focus-visible {
+		outline: 2px solid #ffffff;
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	.site-social {
+		justify-self: end;
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+	}
+
+	.site-social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: rgba(255, 255, 255, 0.88);
+		transition:
+			color 0.25s ease,
+			transform 0.25s ease,
+			filter 0.25s ease;
+	}
+
+	.site-social-link:hover {
+		color: #ffffff;
+		transform: translateY(-3px) scale(1.08);
+		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+	}
+
+	.site-social-icon {
+		width: 1.75rem;
+		height: 1.75rem;
+		display: block;
+	}
+
+	@media screen and (max-width: 900px) {
+		.site-header-inner {
+			grid-template-columns: 1fr;
+			justify-items: center;
+			text-align: center;
+		}
+
+		.site-brand {
+			justify-self: center;
+		}
+
+		.site-nav {
+			justify-content: center;
+		}
+
+		.site-social {
+			justify-self: center;
+		}
+	}
+</style>
