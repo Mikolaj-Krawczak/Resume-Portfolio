@@ -1,0 +1,186 @@
+---
+/**
+ * Sekcja „Known technologies”: 3 kolumny w sensie proporcji — 40+25+35 oraz 30+35+35,
+ * gdzie ostatnie 35% to wysoki panel; po lewej 2+2 mini-tabelki.
+ * Teksty UI po angielsku; komentarze w kodzie po polsku.
+ */
+import '../styles/known-technologies.css';
+
+type TechSlot = { label: string; abbr: string };
+
+type TechCategory = {
+	id: string;
+	title: string;
+	slots: TechSlot[];
+};
+
+/** Rząd 1: pierwsze dwie „komórki” to 40% i 25% całej szerokości (wspólnie 65%). */
+const row1Categories: TechCategory[] = [
+	{
+		id: 'frontend',
+		title: 'Frontend',
+		slots: [
+			{ label: 'Placeholder Alpha', abbr: 'A' },
+			{ label: 'Placeholder Beta', abbr: 'B' },
+			{ label: 'Placeholder Gamma', abbr: 'C' },
+		],
+	},
+	{
+		id: 'backend',
+		title: 'Backend',
+		slots: [
+			{ label: 'Placeholder Delta', abbr: 'D' },
+			{ label: 'Placeholder Epsilon', abbr: 'E' },
+		],
+	},
+];
+
+/** Rząd 2: 30% i 35% całkowitej szerokości (65% razem); ostatnie 35% = wysoka kolumna. */
+const row2Categories: TechCategory[] = [
+	{
+		id: 'tools',
+		title: 'Tools',
+		slots: [
+			{ label: 'Placeholder Zeta', abbr: 'Z' },
+			{ label: 'Placeholder Eta', abbr: 'H' },
+			{ label: 'Placeholder Theta', abbr: 'Θ' },
+			{ label: 'Placeholder Tau', abbr: 'T' },
+		],
+	},
+	{
+		id: 'data',
+		title: 'Data & persistence',
+		slots: [
+			{ label: 'Placeholder Iota', abbr: 'I' },
+			{ label: 'Placeholder Kappa', abbr: 'K' },
+			{ label: 'Placeholder Mu', abbr: 'M' },
+			{ label: 'Placeholder Nu', abbr: 'N' },
+		],
+	},
+];
+
+const rightCategory: TechCategory = {
+	id: 'other',
+	title: 'Other & workflow',
+	slots: [
+		{ label: 'Placeholder One', abbr: '1' },
+		{ label: 'Placeholder Two', abbr: '2' },
+		{ label: 'Placeholder Three', abbr: '3' },
+		{ label: 'Placeholder Four', abbr: '4' },
+		{ label: 'Placeholder Five', abbr: '5' },
+		{ label: 'Placeholder Six', abbr: '6' },
+		{ label: 'Placeholder Seven', abbr: '7' },
+		{ label: 'Placeholder Eight', abbr: '8' },
+	],
+};
+---
+
+<section class="known-tech" aria-labelledby="known-tech-heading">
+	<h2 id="known-tech-heading" class="known-tech__heading">Known technologies</h2>
+
+	<div class="known-tech__outer neo-frame">
+		<!-- Obramowanie zewnętrzne: tylko fragmenty w 4 narożnikach (spójnie z mini-panelami) -->
+		<div class="known-tech__frame-edge known-tech__frame-edge--tl" aria-hidden="true" />
+		<div class="known-tech__frame-edge known-tech__frame-edge--tr" aria-hidden="true" />
+		<div class="known-tech__frame-edge known-tech__frame-edge--bl" aria-hidden="true" />
+		<div class="known-tech__frame-edge known-tech__frame-edge--br" aria-hidden="true" />
+
+		<div class="known-tech__grid">
+			<div class="known-tech__main">
+				<div class="known-tech__row known-tech__row--r1">
+					{
+						row1Categories.map((cat) => (
+							<article class:list={['known-tech__panel', `known-tech__panel--cat-${cat.id}`]}>
+								<div class="known-tech__panel-edge known-tech__panel-edge--tl" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--tr" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--bl" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--br" aria-hidden="true" />
+
+								<header class="known-tech__panel-head">
+									<h3 class="known-tech__panel-title">{cat.title}</h3>
+								</header>
+
+								<ul class="known-tech__icons" aria-label={`${cat.title} technologies`}>
+									{cat.slots.map((slot) => (
+										<li class="known-tech__icon-slot">
+											<button type="button" class="known-tech__icon-btn" aria-describedby={`tip-${cat.id}-${slot.abbr}`}>
+												<span class="known-tech__icon-placeholder" aria-hidden="true">
+													{slot.abbr}
+												</span>
+												<span class="known-tech__icon-glow" aria-hidden="true" />
+											</button>
+											<span id={`tip-${cat.id}-${slot.abbr}`} class="known-tech__tooltip" role="tooltip">
+												{slot.label}
+											</span>
+										</li>
+									))}
+								</ul>
+							</article>
+						))
+					}
+				</div>
+				<div class="known-tech__row known-tech__row--r2">
+					{
+						row2Categories.map((cat) => (
+							<article class:list={['known-tech__panel', `known-tech__panel--cat-${cat.id}`]}>
+								<div class="known-tech__panel-edge known-tech__panel-edge--tl" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--tr" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--bl" aria-hidden="true" />
+								<div class="known-tech__panel-edge known-tech__panel-edge--br" aria-hidden="true" />
+
+								<header class="known-tech__panel-head">
+									<h3 class="known-tech__panel-title">{cat.title}</h3>
+								</header>
+
+								<ul class="known-tech__icons" aria-label={`${cat.title} technologies`}>
+									{cat.slots.map((slot) => (
+										<li class="known-tech__icon-slot">
+											<button type="button" class="known-tech__icon-btn" aria-describedby={`tip-${cat.id}-${slot.abbr}`}>
+												<span class="known-tech__icon-placeholder" aria-hidden="true">
+													{slot.abbr}
+												</span>
+												<span class="known-tech__icon-glow" aria-hidden="true" />
+											</button>
+											<span id={`tip-${cat.id}-${slot.abbr}`} class="known-tech__tooltip" role="tooltip">
+												{slot.label}
+											</span>
+										</li>
+									))}
+								</ul>
+							</article>
+						))
+					}
+				</div>
+			</div>
+
+			<article class="known-tech__panel known-tech__panel--tall known-tech__panel--cat-other">
+				<div class="known-tech__panel-edge known-tech__panel-edge--tl" aria-hidden="true" />
+				<div class="known-tech__panel-edge known-tech__panel-edge--tr" aria-hidden="true" />
+				<div class="known-tech__panel-edge known-tech__panel-edge--bl" aria-hidden="true" />
+				<div class="known-tech__panel-edge known-tech__panel-edge--br" aria-hidden="true" />
+
+				<header class="known-tech__panel-head">
+					<h3 class="known-tech__panel-title">{rightCategory.title}</h3>
+				</header>
+
+				<ul class="known-tech__icons known-tech__icons--tall" aria-label={`${rightCategory.title} technologies`}>
+					{
+						rightCategory.slots.map((slot) => (
+							<li class="known-tech__icon-slot">
+								<button type="button" class="known-tech__icon-btn" aria-describedby={`tip-${rightCategory.id}-${slot.abbr}`}>
+									<span class="known-tech__icon-placeholder" aria-hidden="true">
+										{slot.abbr}
+									</span>
+									<span class="known-tech__icon-glow" aria-hidden="true" />
+								</button>
+								<span id={`tip-${rightCategory.id}-${slot.abbr}`} class="known-tech__tooltip" role="tooltip">
+									{slot.label}
+								</span>
+							</li>
+						))
+					}
+				</ul>
+			</article>
+		</div>
+	</div>
+</section>

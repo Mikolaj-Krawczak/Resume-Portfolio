@@ -7,6 +7,7 @@ import ExperienceSection from '../../components/sections/ExperienceSection.astro
 import EducationSection from '../../components/sections/EducationSection.astro';
 import ProjectsSection from '../../components/sections/ProjectsSection.astro';
 import AboutSection from '../../components/sections/AboutSection.astro';
+import KnownTechnologies from '../../components/KnownTechnologies.astro';
 ---
 
 <Layout>
@@ -20,13 +21,22 @@ import AboutSection from '../../components/sections/AboutSection.astro';
 		<div class="resume-with-art">
 			<div class="resume-inner">
 				<h1 class="resume-heading">Resume</h1>
-				<p class="resume-lead">This is the next section of my portfolio.</p>
-				<p class="resume-back">
-					<a href="/" class="resume-back-link">
-						<span class="resume-back-arrow" aria-hidden="true">←</span>
-						<span class="resume-back-text">Back to home</span>
-					</a>
-				</p>
+				<div class="resume-intro">
+					<p>
+						Hi, I&rsquo;m Mikołaj Krawczak &mdash; a recent Engineering graduate from the Cracow University of Technology.
+					</p>
+					<p>
+						After a break caused by health challenges, I&rsquo;m returning stronger, with a fresh dose of knowledge, hands-on
+						experience with modern technologies, and a portfolio of projects that reflect my growth and dedication.
+					</p>
+					<p>
+						I&rsquo;m currently seeking an opportunity to continue my career as a Junior Python Developer or AI Specialist.
+						I&rsquo;m motivated, curious, and eager to contribute while continuously developing my skills in real-world
+						environments.
+					</p>
+				</div>
+
+				<KnownTechnologies />
 
 				<ExperienceSection />
 				<EducationSection />
@@ -115,11 +125,19 @@ import AboutSection from '../../components/sections/AboutSection.astro';
 		font-weight: 600;
 	}
 
-	.resume-lead {
+	.resume-intro {
 		margin: 0 0 2rem;
+	}
+
+	.resume-intro p {
+		margin: 0;
 		line-height: 1.6;
 		opacity: 0.9;
 		font-size: clamp(1.12rem, 2.1vw, 1.35rem);
+	}
+
+	.resume-intro p + p {
+		margin-top: 1rem;
 	}
 
 	.resume-back {

@@ -8,9 +8,11 @@ interface Props {
 	variant: SiteHeaderVariant;
 	/** Dla resumeSingle — która sekcja jest aktualna (aria-current). */
 	activeSection?: SectionSlug;
+	/** Ukrywa linki Experience / Education / Projects / About (np. strona główna — sam hero). */
+	hideSectionNav?: boolean;
 }
 
-const { variant, activeSection } = Astro.props;
+const { variant, activeSection, hideSectionNav = false } = Astro.props;
 
 function hrefFor(slug: SectionSlug): string {
 	if (variant === 'resumeFull') return `#${slug}`;
@@ -19,21 +21,23 @@ function hrefFor(slug: SectionSlug): string {
 ---
 
 <header class="site-header">
-	<div class="site-header-inner">
+	<div class:list={['site-header-inner', hideSectionNav && 'site-header-inner--no-nav']}>
 		<a href="/" class="site-brand">MKravczak.com</a>
-		<nav class="site-nav" aria-label="Portfolio sections">
-			{
-				SECTION_SLUGS.map((slug) => (
-					<a
-						href={hrefFor(slug)}
-						class:list={{ 'is-active': variant === 'resumeSingle' && activeSection === slug }}
-						aria-current={variant === 'resumeSingle' && activeSection === slug ? 'page' : undefined}
-					>
-						{SECTION_LABELS[slug]}
-					</a>
-				))
-			}
-		</nav>
+		{
+			!hideSectionNav && (
+				<nav class="site-nav" aria-label="Portfolio sections">
+					{SECTION_SLUGS.map((slug) => (
+						<a
+							href={hrefFor(slug)}
+							class:list={{ 'is-active': variant === 'resumeSingle' && activeSection === slug }}
+							aria-current={variant === 'resumeSingle' && activeSection === slug ? 'page' : undefined}
+						>
+							{SECTION_LABELS[slug]}
+						</a>
+					))}
+				</nav>
+			)
+		}
 		<div class="site-social">
 			<a
 				class="site-social-link"
@@ -87,6 +91,11 @@ function hrefFor(slug: SectionSlug): string {
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 0.85rem clamp(1rem, 3vw, 2rem);
+	}
+
+	/* Strona główna bez zakładek — tylko logo + social */
+	.site-header-inner--no-nav {
+		grid-template-columns: 1fr auto;
 	}
 
 	.site-brand {
