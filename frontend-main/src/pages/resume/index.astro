@@ -1,0 +1,182 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ParticleNetwork from '../../components/ParticleNetwork.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import ResumeScrollNetwork from '../../components/ResumeScrollNetwork.astro';
+import ExperienceSection from '../../components/sections/ExperienceSection.astro';
+import EducationSection from '../../components/sections/EducationSection.astro';
+import ProjectsSection from '../../components/sections/ProjectsSection.astro';
+import AboutSection from '../../components/sections/AboutSection.astro';
+import KnownTechnologies from '../../components/KnownTechnologies.astro';
+---
+
+<Layout>
+	<ParticleNetwork />
+	<main class="resume-page" id="top">
+		<SiteHeader variant="resumeFull" />
+		<!-- Fixed: sieć jak ParticleNetwork + segmenty wg scrolla; przy samej lewej krawędzi, nie pod treścią 720px. -->
+		<div class="resume-network-layer" aria-hidden="true">
+			<ResumeScrollNetwork />
+		</div>
+		<div class="resume-with-art">
+			<div class="resume-inner">
+				<h1 class="resume-heading">Resume</h1>
+				<div class="resume-intro">
+					<p>
+						Hi, I&rsquo;m Mikołaj Krawczak &mdash; a recent Engineering graduate from the Cracow University of Technology.
+					</p>
+					<p>
+						After a break caused by health challenges, I&rsquo;m returning stronger, with a fresh dose of knowledge, hands-on
+						experience with modern technologies, and a portfolio of projects that reflect my growth and dedication.
+					</p>
+					<p>
+						I&rsquo;m currently seeking an opportunity to continue my career as a Junior Python Developer or AI Specialist.
+						I&rsquo;m motivated, curious, and eager to contribute while continuously developing my skills in real-world
+						environments.
+					</p>
+				</div>
+
+				<KnownTechnologies />
+
+				<ExperienceSection />
+				<EducationSection />
+				<ProjectsSection />
+				<AboutSection />
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style is:global>
+	html {
+		scroll-padding-top: 5.5rem;
+	}
+</style>
+
+<style>
+	.resume-page {
+		box-sizing: border-box;
+		position: relative;
+		z-index: 1;
+		--resume-header-h: 5.5rem;
+		--resume-pad-x: clamp(1rem, 3vw, 2rem);
+		--resume-inner-max: 1200px;
+		/* Węższy pasek, bliżej lewej krawędzi okna niż kolumna treści. */
+		--resume-network-w: min(14vw, 104px);
+		--resume-network-left: clamp(0.15rem, 0.75vw, 0.45rem);
+		/* Sztucznie wydłużona strona — wygodny podgląd scrolla i wypełnienia obiektu 3D; usuń lub zmniejsz po testach. */
+		min-height: 420vh;
+		width: 100%;
+		padding: 0;
+		background-color: transparent;
+		color: #ffffff;
+		font-family: var(--font-sans);
+		font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+	}
+
+	/* Słupek przesunięty o jedną swoją szerokość w prawo względem wcześniejszej pozycji. */
+	.resume-network-layer {
+		position: fixed;
+		z-index: 4;
+		pointer-events: none;
+		top: var(--resume-header-h);
+		bottom: 0;
+		left: calc(var(--resume-network-left) + var(--resume-network-w));
+		width: var(--resume-network-w);
+		overflow: visible;
+	}
+
+	.resume-with-art {
+		position: relative;
+		z-index: 2;
+		box-sizing: border-box;
+		max-width: var(--resume-inner-max);
+		margin: 0 auto;
+		padding: 0 var(--resume-pad-x);
+		padding-left: calc(var(--resume-network-left) + 2 * var(--resume-network-w) + clamp(0.65rem, 1.6vw, 1.15rem));
+	}
+
+	.resume-inner {
+		max-width: 720px;
+		margin: 0;
+		padding: clamp(1.5rem, 4vw, 3rem);
+		padding-left: 0;
+	}
+
+	@media screen and (max-width: 900px) {
+		.resume-page {
+			--resume-network-w: min(22vw, 92px);
+			--resume-network-left: clamp(0.2rem, 1.5vw, 0.5rem);
+		}
+
+		.resume-with-art {
+			padding-left: calc(var(--resume-network-left) + 2 * var(--resume-network-w) + 0.55rem);
+		}
+
+		.resume-inner {
+			padding-left: 0;
+			margin-inline: 0;
+		}
+	}
+
+	.resume-heading {
+		margin: 0 0 1rem;
+		font-size: clamp(2.1rem, 4.5vw, 2.85rem);
+		font-weight: 600;
+	}
+
+	.resume-intro {
+		margin: 0 0 2rem;
+	}
+
+	.resume-intro p {
+		margin: 0;
+		line-height: 1.6;
+		opacity: 0.9;
+		font-size: clamp(1.12rem, 2.1vw, 1.35rem);
+	}
+
+	.resume-intro p + p {
+		margin-top: 1rem;
+	}
+
+	.resume-back {
+		margin: 0 0 3rem;
+	}
+
+	.resume-back-link {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.2em;
+		text-decoration: none;
+		color: #ffffff;
+		opacity: 0.85;
+		font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+	}
+
+	.resume-back-link:visited,
+	.resume-back-link:visited .resume-back-arrow,
+	.resume-back-link:visited .resume-back-text {
+		color: #ffffff;
+	}
+
+	.resume-back-text {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.resume-back-link:hover {
+		opacity: 1;
+	}
+
+	.resume-back-link:hover .resume-back-text {
+		text-decoration-thickness: from-font;
+	}
+
+	.resume-back-link:focus-visible {
+		outline: 2px solid #ffffff;
+		outline-offset: 4px;
+		border-radius: 2px;
+	}
+</style>

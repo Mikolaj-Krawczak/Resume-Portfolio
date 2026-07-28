@@ -1,0 +1,45 @@
+---
+import type { SectionSlug } from '../data/portfolioSections';
+
+interface Props {
+	id: SectionSlug;
+	title: string;
+}
+
+const { id, title } = Astro.props;
+const headingId = `heading-${id}`;
+---
+
+<section class="resume-section" id={id} aria-labelledby={headingId}>
+	<h2 id={headingId} class="resume-section-title">{title}</h2>
+	<div class="resume-section-body">
+		<slot />
+	</div>
+</section>
+
+<style>
+	.resume-section {
+		scroll-margin-top: 5rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.resume-section-title {
+		margin: 0 0 1rem;
+		font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+		font-weight: 600;
+		font-size: clamp(1.4rem, 2.85vw, 1.75rem);
+	}
+
+	.resume-section-body {
+		line-height: 1.65;
+		opacity: 0.95;
+	}
+</style>
+
+<!-- Odstęp między kolejnymi sekcjami (różne instancje komponentu — selektor musi być globalny). -->
+<style is:global>
+	.resume-section + .resume-section {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding-top: 1.5rem;
+	}
+</style>

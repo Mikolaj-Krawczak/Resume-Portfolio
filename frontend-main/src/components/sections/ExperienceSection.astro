@@ -1,0 +1,190 @@
+---
+import SectionShell from '../SectionShell.astro';
+import { SECTION_LABELS } from '../../data/portfolioSections';
+
+interface ExperienceEntry {
+  company: string;
+  logoSrc: string;
+  logoAlt: string;
+  role?: string;
+  period?: string;
+  intro?: string;
+  bullets?: string[];
+  description?: string;
+}
+
+const experiences: ExperienceEntry[] = [
+  {
+    company: 'Futurum Technology',
+    logoSrc: '/images/futurum.png',
+    logoAlt: 'Futurum Technology logo',
+    role: 'Software Developer',
+    period: 'February 2025 – August 2025',
+    intro: 'Worked within a team supporting a major U.S. healthcare company.',
+    bullets: [
+      'Developed and maintained a real-time messaging and video-calling web platform connecting doctors and patients',
+      'Integrated AI chatbots into the platform',
+      'Built and deployed desktop versions of the web platform for macOS and Windows using Electron',
+      'Developed and published the corresponding mobile applications on the App Store and Google Play',
+      'Wrote tests and maintained project documentation',
+    ],
+  },
+  {
+    company: 'DataSoft',
+    logoSrc: '/images/Datasoft.png',
+    logoAlt: 'DataSoft logo',
+    intro: "Completed an internship at a company that is one of Comarch's main partners.",
+    description:
+      'The internship involved familiarization with the principles of work in a larger company, encompassing both service and hardware configuration elements, as well as tasks such as writing and hosting websites.',
+  },
+];
+---
+
+<SectionShell id="experience" title={SECTION_LABELS.experience}>
+  <ol class="exp-list">
+    {experiences.map((exp) => (
+      <li class="exp-item">
+        <span class="exp-marker" aria-hidden="true"></span>
+
+        <div class="exp-body">
+          <div class="exp-logo-frame">
+            <img
+              class="exp-logo"
+              src={exp.logoSrc}
+              alt={exp.logoAlt}
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"
+            />
+            <span class="exp-logo-fallback">{exp.company}</span>
+          </div>
+
+          {exp.role && (
+            <p class="exp-role">
+              {exp.role}{exp.period && <> | {exp.period}</>}
+            </p>
+          )}
+
+          {exp.intro && <p class="exp-intro">{exp.intro}</p>}
+
+          {exp.bullets && exp.bullets.length > 0 && (
+            <ul class="exp-bullets">
+              {exp.bullets.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          )}
+
+          {exp.description && <p class="exp-description">{exp.description}</p>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</SectionShell>
+
+<style>
+  .exp-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+
+  .exp-item {
+    position: relative;
+    padding: 1.75rem 1.5rem 1.5rem 2.25rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .exp-marker {
+    position: absolute;
+    left: 1rem;
+    top: 1.4rem;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .exp-logo-frame {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    margin-bottom: 1.15rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+  }
+
+  .exp-logo {
+    max-height: 36px;
+    max-width: 220px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .exp-logo-fallback {
+    display: none;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+    background: #f1f3f6;
+    border: 1px dashed #c7ccd6;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #5b6472;
+    white-space: nowrap;
+  }
+
+  .exp-role {
+    margin: 0 0 0.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .exp-intro {
+    margin: 0 0 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.55;
+  }
+
+  .exp-bullets {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .exp-bullets li {
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.7;
+  }
+
+  .exp-description {
+    margin: 1rem 0 0;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 640px) {
+    .exp-item {
+      padding-left: 1.75rem;
+    }
+
+    .exp-logo-frame {
+      height: 38px;
+    }
+  }
+</style>

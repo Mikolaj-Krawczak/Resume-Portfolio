@@ -1,0 +1,34 @@
+---
+import WishlistApp from "../components/WishlistApp";
+import ParticleNetwork from "../components/ParticleNetwork.astro";
+---
+
+<html lang="pl">
+<head>
+    <meta 
+  name="robots" 
+  content="noindex,nofollow"
+    />      
+    <meta charset="UTF-8" />
+    <title>Wishlist</title>
+    <meta name="robots" content="noindex,nofollow" />
+</head>
+
+<body>
+    <ParticleNetwork />
+    <WishlistApp client:load />
+</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		min-height: 100vh;
+		font-family: var(--font-sans);
+		background-color: #101010;
+		color: #ffffff;
+	}
+</style>

@@ -1,0 +1,31 @@
+---
+import '../styles/fonts.css';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro Basics</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		/* 100vh — stabilna baza dla centrowania (min-height % zepsuł się bez height na rodzicu) */
+		min-height: 100vh;
+		font-family: var(--font-sans);
+		background-color: #101010;
+		color: #ffffff;
+	}
+</style>

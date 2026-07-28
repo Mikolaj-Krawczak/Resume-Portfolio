@@ -1,0 +1,393 @@
+/* KnownTechnologies — proporcje jak 40+25+35 i 30+35+35: lewa strefa 65%, prawa wysoka 35% */
+
+/* Odstępy ramki: góra/boki równe; dół większy — dolne narożniki niżej niż krawędź mini-tabel */
+.known-tech {
+	--kt-frame-pad: clamp(1.25rem, 3vw, 1.75rem);
+	/* Minimalnie więcej niż +1rem — lekki balans jak przy górnym paddingu wewnątrz ramki */
+	--kt-frame-pad-bottom: calc(var(--kt-frame-pad) + 1.75rem);
+	margin: 0 0 clamp(2rem, 4vw, 3rem);
+	padding: 0;
+	max-width: 100%;
+}
+
+.known-tech__heading {
+	margin: 0 0 var(--kt-frame-pad);
+	font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+	font-weight: 600;
+	font-size: clamp(1.35rem, 2.6vw, 1.65rem);
+	color: #ffffff;
+}
+
+/* Duża ramka: bez ciemnego tła; większy padding na dole (symetria z górną „strefą” nad tabelkami) */
+.neo-frame {
+	position: relative;
+	padding: var(--kt-frame-pad) var(--kt-frame-pad) var(--kt-frame-pad-bottom) var(--kt-frame-pad);
+	margin: 0;
+	width: 100%;
+	max-width: min(100%, 45rem);
+	background: transparent;
+	box-shadow: none;
+}
+
+/* Zewnętrzne fragmenty rogów — większe niż przy mini-panelach, ten sam styl */
+.known-tech__frame-edge {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-color: rgba(255, 255, 255, 0.92);
+	border-style: solid;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.known-tech__frame-edge--tl {
+	top: 0;
+	left: 0;
+	border-width: 1px 0 0 1px;
+}
+
+.known-tech__frame-edge--tr {
+	top: 0;
+	right: 0;
+	border-width: 1px 1px 0 0;
+}
+
+.known-tech__frame-edge--bl {
+	bottom: 0;
+	left: 0;
+	border-width: 0 0 1px 1px;
+}
+
+.known-tech__frame-edge--br {
+	bottom: 0;
+	right: 0;
+	border-width: 0 1px 1px 0;
+}
+
+/* Siatka: kolumna 1 = 65% (40+25 lub 30+35), kolumna 2 = 35% — wysoki panel; min. wysokość całości */
+.known-tech__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
+	grid-template-rows: auto;
+	gap: clamp(0.55rem, 1.5vw, 0.85rem) clamp(0.5rem, 1.2vw, 0.65rem);
+	align-items: stretch;
+	min-height: clamp(26rem, 44vh, 36rem);
+}
+
+/* Lewa strefa rozciąga się do wysokości wysokiego panelu; dolny rząd wypełnia resztę */
+.known-tech__main {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.55rem, 1.5vw, 0.85rem);
+	min-width: 0;
+	min-height: 100%;
+	height: 100%;
+	align-self: stretch;
+}
+
+/* W obrębie 65% szerokości: 40fr : 25fr → 40% i 25% całej ramki */
+.known-tech__row--r1 {
+	flex: 0 0 auto;
+	display: grid;
+	grid-template-columns: 40fr 25fr;
+	gap: clamp(0.45rem, 1.2vw, 0.65rem);
+	align-items: stretch;
+	min-width: 0;
+}
+
+/* Drugi rząd rośnie, żeby dolne mini-tabelki miały tę samą wysokość co prawa kolumna */
+.known-tech__row--r2 {
+	flex: 1 1 0;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: 30fr 35fr;
+	gap: clamp(0.45rem, 1.2vw, 0.65rem);
+	align-items: stretch;
+	align-content: stretch;
+	min-width: 0;
+}
+
+.known-tech__panel--tall {
+	grid-column: 2;
+	grid-row: 1 / -1;
+	min-height: 100%;
+}
+
+.known-tech__panel {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding: 0.75rem 0.6rem 0.85rem;
+	background: rgba(12, 12, 14, 0.5);
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.82);
+	min-height: 132px;
+	min-width: 0;
+}
+
+.known-tech__panel--tall {
+	min-height: 100%;
+}
+
+/* Dolny rząd: komórki na pełną wysokość wiersza (wyrównanie z kolumną 3) */
+.known-tech__row--r2 .known-tech__panel {
+	height: 100%;
+	min-height: 132px;
+}
+
+@media screen and (max-width: 720px) {
+	.known-tech__grid {
+		grid-template-columns: 1fr;
+		min-height: 0;
+	}
+
+	.known-tech__main {
+		height: auto;
+		min-height: 0;
+	}
+
+	.known-tech__panel--tall {
+		grid-column: auto;
+		grid-row: auto;
+		min-height: 240px;
+	}
+
+	.known-tech__row--r1,
+	.known-tech__row--r2 {
+		flex: 0 1 auto;
+		grid-template-columns: 1fr;
+	}
+
+	.known-tech__row--r2 .known-tech__panel {
+		height: auto;
+	}
+}
+
+/* Pseudo-rogi: krótkie odcinki zamiast pełnego łączenia narożników */
+.known-tech__panel-edge {
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	border-color: rgba(255, 255, 255, 0.9);
+	border-style: solid;
+	pointer-events: none;
+}
+
+.known-tech__panel-edge--tl {
+	top: 0;
+	left: 0;
+	border-width: 1px 0 0 1px;
+}
+
+.known-tech__panel-edge--tr {
+	top: 0;
+	right: 0;
+	border-width: 1px 1px 0 0;
+}
+
+.known-tech__panel-edge--bl {
+	bottom: 0;
+	left: 0;
+	border-width: 0 0 1px 1px;
+}
+
+.known-tech__panel-edge--br {
+	bottom: 0;
+	right: 0;
+	border-width: 0 1px 1px 0;
+}
+
+.known-tech__panel-head {
+	margin: 0 0 0.55rem;
+	padding-bottom: 0.4rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+	text-align: center;
+	flex-shrink: 0;
+}
+
+.known-tech__panel-title {
+	margin: 0;
+	font-size: clamp(0.72rem, 1.25vw, 0.82rem);
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.92);
+	line-height: 1.25;
+	text-align: center;
+}
+
+.known-tech__icons {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+	gap: 0.55rem 0.6rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	min-height: 0;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+}
+
+.known-tech__icons--tall {
+	flex: 1;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Frontend: większe odstępy między ikonami */
+.known-tech__panel--cat-frontend .known-tech__icons {
+	gap: 1.05rem 1.25rem;
+}
+
+/* Tools: siatka 2×2 */
+.known-tech__panel--cat-tools .known-tech__icons {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	grid-template-rows: repeat(2, auto);
+	justify-content: center;
+	justify-items: center;
+	align-content: center;
+	gap: 0.7rem 0.85rem;
+}
+
+/* Data & persistence: 2×2, większe ikony i odstępy */
+.known-tech__panel--cat-data .known-tech__icons {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	grid-template-rows: repeat(2, auto);
+	justify-content: center;
+	justify-items: center;
+	align-content: center;
+	gap: 1.05rem 1.2rem;
+}
+
+.known-tech__panel--cat-data .known-tech__icon-btn {
+	width: 3.95rem;
+	height: 3.95rem;
+}
+
+.known-tech__panel--cat-data .known-tech__icon-placeholder {
+	font-size: 0.98rem;
+}
+
+/* Other & workflow: 2×4 — siatka na całą szerokość/wysokość panelu, równy podział jak w space-evenly */
+.known-tech__panel--cat-other .known-tech__icons {
+	display: grid;
+	width: 100%;
+	flex: 1;
+	min-height: 0;
+	align-self: stretch;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: repeat(4, minmax(0, 1fr));
+	justify-items: center;
+	align-items: center;
+	column-gap: clamp(0.85rem, 4vw, 1.75rem);
+	row-gap: clamp(0.55rem, 2.5vh, 1.1rem);
+}
+
+.known-tech__icon-slot {
+	position: relative;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.known-tech__icon-btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.35rem;
+	height: 3.35rem;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.55);
+	border-radius: 50%;
+	background: rgba(20, 22, 26, 0.85);
+	color: #ffffff;
+	cursor: pointer;
+	transition:
+		transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1),
+		border-color 0.2s ease,
+		box-shadow 0.22s ease;
+}
+
+.known-tech__icon-placeholder {
+	position: relative;
+	z-index: 1;
+	font-size: 0.88rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+
+.known-tech__icon-glow {
+	position: absolute;
+	inset: -2px;
+	border-radius: 50%;
+	opacity: 0;
+	transition: opacity 0.22s ease;
+	box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+	pointer-events: none;
+}
+
+.known-tech__tooltip {
+	position: absolute;
+	left: 50%;
+	bottom: calc(100% + 10px);
+	transform: translateX(-50%) translateY(4px);
+	padding: 0.35rem 0.55rem;
+	font-size: 0.72rem;
+	white-space: nowrap;
+	color: #101010;
+	background: rgba(255, 255, 255, 0.94);
+	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease,
+		visibility 0.2s;
+	z-index: 4;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.known-tech__tooltip::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	transform: translateX(-50%);
+	border: 6px solid transparent;
+	border-top-color: rgba(255, 255, 255, 0.94);
+}
+
+.known-tech__icon-btn:hover,
+.known-tech__icon-btn:focus-visible {
+	transform: scale(1.14);
+	border-color: rgba(255, 255, 255, 0.95);
+	box-shadow:
+		0 0 18px rgba(255, 255, 255, 0.35),
+		0 0 42px rgba(255, 255, 255, 0.12);
+}
+
+.known-tech__icon-btn:hover .known-tech__icon-glow,
+.known-tech__icon-btn:focus-visible .known-tech__icon-glow {
+	opacity: 1;
+	box-shadow: 0 0 22px rgba(255, 255, 255, 0.45);
+}
+
+.known-tech__icon-btn:hover + .known-tech__tooltip,
+.known-tech__icon-btn:focus-visible + .known-tech__tooltip,
+.known-tech__icon-slot:hover .known-tech__tooltip {
+	opacity: 1;
+	visibility: visible;
+	transform: translateX(-50%) translateY(0);
+}
+
+.known-tech__icon-btn:focus-visible {
+	outline: 2px solid #ffffff;
+	outline-offset: 3px;
+}
