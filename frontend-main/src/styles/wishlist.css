@@ -248,6 +248,8 @@
 		border-color 0.25s ease;
 }
 
+
+
 .wishlist-card::before {
 	content: '';
 	position: absolute;
