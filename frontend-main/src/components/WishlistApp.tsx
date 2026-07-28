@@ -20,6 +20,28 @@ import { auth, db } from "../lib/firebase";
 import "../styles/fonts.css";
 import "../styles/wishlist.css";
 
+// SVG Icons
+const EditIcon = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+  </svg>
+);
+
+const DeleteIcon = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    <line x1="10" y1="11" x2="10" y2="17" />
+    <line x1="14" y1="11" x2="14" y2="17" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
 
 type WishlistItem = {
   id: string;
@@ -50,6 +72,13 @@ export default function WishlistApp() {
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState("");
+
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
 
 
@@ -114,6 +143,35 @@ export default function WishlistApp() {
 
 
   }, [user]);
+
+  // Countdown timer do 4 września
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      let targetDate = new Date(currentYear, 8, 4); // Wrzesień to miesiąc 8 (0-indexed)
+      
+      // Jeśli data już minęła w tym roku, ustawić na przyszły rok
+      if (now > targetDate) {
+        targetDate = new Date(currentYear + 1, 8, 4);
+      }
+
+      const difference = targetDate.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
 
 
@@ -334,7 +392,7 @@ export default function WishlistApp() {
 
 
               <h1>
-                ❤️ Wishlist
+                ❤️ Wishlist ❤️
               </h1>
 
 
@@ -367,7 +425,7 @@ export default function WishlistApp() {
                   )
                 }
 
-                placeholder="Hasło"
+                placeholder="Password"
 
               />
 
@@ -377,7 +435,7 @@ export default function WishlistApp() {
                 onClick={handleLogin}
               >
 
-                Zaloguj
+                Sign in
 
               </button>
 
@@ -413,23 +471,38 @@ export default function WishlistApp() {
 
 
                 <h1>
-                  ❤️ Lista życzeń
+                  ❤️ Wishlist ❤️
                 </h1>
 
+                <div className="wishlist-header-right">
 
+                  <div className="countdown-timer">
+                    <span className="countdown-value">{timeLeft.days.toString().padStart(2, '0')}</span>
+                    <span className="countdown-label">dni</span>
+                    <span className="countdown-separator">:</span>
+                    <span className="countdown-value">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                    <span className="countdown-label">godz</span>
+                    <span className="countdown-separator">:</span>
+                    <span className="countdown-value">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                    <span className="countdown-label">min</span>
+                    <span className="countdown-separator">:</span>
+                    <span className="countdown-value">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                    <span className="countdown-label">sek</span>
+                  </div>
 
-                <button
+                  <button
 
-                  onClick={() =>
-                    signOut(auth)
-                  }
+                    onClick={() =>
+                      signOut(auth)
+                    }
 
-                >
+                  >
 
-                  Wyloguj
+                  Logout
 
                 </button>
 
+                </div>
 
               </header>
 
@@ -453,7 +526,7 @@ export default function WishlistApp() {
                     )
                   }
 
-                  placeholder="Dodaj pomysł na prezent..."
+                  placeholder="Enter your ideas here..."
 
                   onKeyDown={(event) => {
 
@@ -493,7 +566,7 @@ export default function WishlistApp() {
 
 
 
-              <div className="wishlist-list">
+              <div className="wishlist-grid">
 
 
                 {
@@ -515,10 +588,12 @@ export default function WishlistApp() {
                         editingId === item.id ? (
 
 
-                          <>
+                          <div className="wishlist-card-edit">
 
 
                             <input
+
+                              className="wishlist-card-input"
 
                               value={editingText}
 
@@ -534,6 +609,8 @@ export default function WishlistApp() {
 
                             <button
 
+                              className="wishlist-card-confirm"
+
                               onClick={() =>
                                 updateItem(
                                   item.id
@@ -542,22 +619,22 @@ export default function WishlistApp() {
 
                             >
 
-                              ✔️
+                              <CheckIcon />
 
                             </button>
 
 
-                          </>
+                          </div>
 
 
 
                         ) : (
 
 
-                          <>
+                          <div className="wishlist-card-content">
 
 
-                            <span>
+                            <span className="wishlist-card-text">
 
                               {item.text}
 
@@ -565,10 +642,12 @@ export default function WishlistApp() {
 
 
 
-                            <div>
+                            <div className="wishlist-card-actions">
 
 
                               <button
+
+                                className="wishlist-card-btn wishlist-card-edit-btn"
 
                                 onClick={() => {
 
@@ -584,7 +663,7 @@ export default function WishlistApp() {
 
                               >
 
-                                ✏️
+                                <EditIcon />
 
                               </button>
 
@@ -594,6 +673,8 @@ export default function WishlistApp() {
 
                               <button
 
+                                className="wishlist-card-btn wishlist-card-delete-btn"
+
                                 onClick={() =>
                                   removeItem(
                                     item.id
@@ -602,7 +683,7 @@ export default function WishlistApp() {
 
                               >
 
-                                🗑️
+                                <DeleteIcon />
 
                               </button>
 
@@ -611,7 +692,7 @@ export default function WishlistApp() {
 
 
 
-                          </>
+                          </div>
 
                         )
 

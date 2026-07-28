@@ -1,5 +1,6 @@
 ---
 import WishlistApp from "../components/WishlistApp";
+import ParticleNetwork from "../components/ParticleNetwork.astro";
 ---
 
 <html lang="pl">
@@ -14,6 +15,20 @@ import WishlistApp from "../components/WishlistApp";
 </head>
 
 <body>
+    <ParticleNetwork />
     <WishlistApp client:load />
 </body>
 </html>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		min-height: 100vh;
+		font-family: var(--font-sans);
+		background-color: #101010;
+		color: #ffffff;
+	}
+</style>
