@@ -7,7 +7,7 @@ export type SectionSlug = (typeof SECTION_SLUGS)[number];
 
 export const SECTION_LABELS: Record<SectionSlug, string> = {
 	experience: 'Experience',
-	education: 'Education & courses',
+	education: 'Education, Certifications & Courses',
 	projects: 'Projects',
 	about: 'About me',
 };

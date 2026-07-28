@@ -115,15 +115,15 @@
 			lastScrollY = sy;
 			if (Math.abs(delta) > 140) delta = Math.sign(delta) * 140;
 			const move = delta * SCROLL_FLOW * (prefersReducedMotion ? 0.35 : 1);
+			const wrapHeight = h - 2 * PAD;
 			for (let i = 0; i < nodes.length; i++) {
 				const p = nodes[i];
 				p.y -= move;
+				/* Wrappuj punkt bez zmiany X, aby połączenia pozostały ciągłe */
 				if (p.y < PAD) {
-					p.y = h - PAD - Math.random() * 12;
-					p.x = Math.max(PAD, Math.min(w - PAD, p.x + (Math.random() - 0.5) * 16));
+					p.y += wrapHeight;
 				} else if (p.y > h - PAD) {
-					p.y = PAD + Math.random() * 12;
-					p.x = Math.max(PAD, Math.min(w - PAD, p.x + (Math.random() - 0.5) * 16));
+					p.y -= wrapHeight;
 				}
 			}
 		}
@@ -193,10 +193,8 @@
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			ctx.clearRect(0, 0, w, h);
 
-			/* Piruet wokół pionowej osi — w Canvas 2D: scaleX(cos θ) względem środka (CSS rotateY często nie działa z canvas). */
-			const mul = prefersReducedMotion ? 0.32 : 1;
-			const yaw = progress * YAW_MAX_RAD * mul;
-			const sx = Math.max(0.1, Math.cos(yaw));
+			/* Zachowujemy stałą szerokość siatki, żeby nie kurczyła się przy scrollu. */
+			const sx = 1;
 
 			ctx.save();
 			ctx.translate(w * 0.5, h * 0.5);
