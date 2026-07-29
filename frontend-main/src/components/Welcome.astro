@@ -17,22 +17,40 @@
 						href="/resume"
 						aria-label="Continue to portfolio resume section"
 					>
-						<svg
-							class="hero-next-icon"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 120 220"
-							fill="none"
-							aria-hidden="true"
-						>
-							<path
-								d="M 14 10 L 106 110 L 14 210"
-								stroke="currentColor"
-								stroke-width="22"
-								stroke-linecap="butt"
-								stroke-linejoin="miter"
-								stroke-miterlimit="8"
-							/>
-						</svg>
+						<span class="hero-next-icon-stack">
+							<svg
+								class="hero-next-icon hero-next-icon--rest"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 120 220"
+								fill="none"
+								aria-hidden="true"
+							>
+								<path
+									d="M 14 10 L 106 110 L 14 210"
+									stroke="currentColor"
+									stroke-width="22"
+									stroke-linecap="butt"
+									stroke-linejoin="miter"
+									stroke-miterlimit="8"
+								/>
+							</svg>
+							<svg
+								class="hero-next-icon hero-next-icon--hover"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 120 220"
+								fill="none"
+								aria-hidden="true"
+							>
+								<path
+									d="M 14 10 L 106 110 L 14 210"
+									stroke="currentColor"
+									stroke-width="22"
+									stroke-linecap="butt"
+									stroke-linejoin="miter"
+									stroke-miterlimit="8"
+								/>
+							</svg>
+						</span>
 					</a>
 				</div>
 			</div>
@@ -106,7 +124,38 @@
 		transform: rotateX(32deg) rotateY(-5deg) rotateZ(-1.5deg) translateY(-0.5rem);
 		transform-origin: 50% 55%;
 		transform-style: preserve-3d;
-		/* Warstwowe cienie ≈ wytłoczenie (dla SVG zamiast text-shadow) — dostosowane do #101010 */
+		/* Filtry cieni są teraz statyczne, przeniesione na dwie warstwy SVG poniżej —
+		   animujemy tylko transform + opacity (tanie dla kompozytora), zamiast
+		   przeliczać cały 14-17-warstwowy łańcuch drop-shadow na każdą klatkę. */
+		transition: transform 0.45s cubic-bezier(0.34, 1.45, 0.52, 1);
+	}
+
+	.hero-next:hover {
+		transform: rotateX(26deg) rotateY(-3deg) rotateZ(-0.5deg) translateX(1.125rem) translateY(-1.45rem)
+			scale(1.08);
+	}
+
+	.hero-next:focus-visible {
+		outline: 2px solid #ffffff;
+		outline-offset: 4px;
+	}
+
+	/* Wrapper trzymający obie warstwy ikony jedna na drugiej */
+	.hero-next-icon-stack {
+		position: relative;
+		display: block;
+		height: clamp(7rem, 18vw, 11.5rem);
+	}
+
+	/* Niższy chevron niż wcześniej; szerokość z viewBox */
+	.hero-next-icon {
+		display: block;
+		height: clamp(7rem, 18vw, 11.5rem);
+		width: auto;
+	}
+
+	/* Stan spoczynku — te same wartości drop-shadow co wcześniej, ale bez transition na filter */
+	.hero-next-icon--rest {
 		filter:
 			drop-shadow(1px 1px 0 #5c5c5c)
 			drop-shadow(1px 2px 0 #525252)
@@ -123,14 +172,15 @@
 			drop-shadow(1px 16px 8px rgba(0, 0, 0, 0.4))
 			drop-shadow(1px 22px 18px rgba(0, 0, 0, 0.28))
 			drop-shadow(0 0 14px rgba(255, 255, 255, 0.1));
-		transition:
-			transform 0.45s cubic-bezier(0.34, 1.45, 0.52, 1),
-			filter 0.4s ease;
 	}
 
-	.hero-next:hover {
-		transform: rotateX(26deg) rotateY(-3deg) rotateZ(-0.5deg) translateX(1.125rem) translateY(-1.45rem)
-			scale(1.08);
+	/* Stan hover — nałożona druga kopia, chowana/pokazywana przez opacity (tanie) zamiast
+	   interpolacji filtra (drogie). Wartości drop-shadow identyczne jak w oryginalnym :hover. */
+	.hero-next-icon--hover {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transition: opacity 0.4s ease;
 		filter:
 			drop-shadow(1px 1px 0 #5c5c5c)
 			drop-shadow(1px 2px 0 #525252)
@@ -152,16 +202,8 @@
 			drop-shadow(0 0 36px rgba(255, 255, 255, 0.2));
 	}
 
-	.hero-next:focus-visible {
-		outline: 2px solid #ffffff;
-		outline-offset: 4px;
-	}
-
-	/* Niższy chevron niż wcześniej; szerokość z viewBox */
-	.hero-next-icon {
-		display: block;
-		height: clamp(7rem, 18vw, 11.5rem);
-		width: auto;
+	.hero-next:hover .hero-next-icon--hover {
+		opacity: 1;
 	}
 
 	.hero-title {
@@ -290,6 +332,7 @@
 				scale(1.07);
 		}
 
+		.hero-next-icon-stack,
 		.hero-next-icon {
 			height: clamp(5.75rem, 30vw, 8.5rem);
 			width: auto;
