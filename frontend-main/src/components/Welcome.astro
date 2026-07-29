@@ -1,5 +1,47 @@
 ---
 // Sekcja powitalna: układ 65% / 35%, tekst po lewej, zdjęcie z public/profilepic.jpg po prawej.
+
+const ARROW_PATH = 'M 14 10 L 106 110 L 14 210';
+
+// Warstwy bez rozmycia (blur = 0) — pieczone jako zwykłe, przesunięte kopie ścieżki
+// zamiast wywołań drop-shadow(). To są dokładnie te same kolory/offsety co wcześniej,
+// tylko renderowane jako tanie kształty wektorowe zamiast kosztownych przebiegów filtra.
+const restCrispSteps = [
+	{ dy: 1, color: '#5c5c5c' },
+	{ dy: 2, color: '#525252' },
+	{ dy: 3, color: '#484848' },
+	{ dy: 4, color: '#3f3f3f' },
+	{ dy: 5, color: '#383838' },
+	{ dy: 6, color: '#323232' },
+	{ dy: 7, color: '#2c2c2c' },
+	{ dy: 8, color: '#262626' },
+	{ dy: 9, color: '#222222' },
+	{ dy: 10, color: '#1c1c1c' },
+	{ dy: 11, color: '#181818' },
+];
+
+const hoverCrispSteps = [
+	...restCrispSteps,
+	{ dy: 12, color: '#141414' },
+];
+
+// Tylko te warstwy mają realne rozmycie — zostają jako filter, ale jest ich
+// dużo mniej niż w oryginalnym łańcuchu (4 zamiast 15, 6 zamiast 18).
+const restBlurFilter = [
+	'drop-shadow(1px 12px 2px rgba(0, 0, 0, 0.55))',
+	'drop-shadow(1px 16px 8px rgba(0, 0, 0, 0.4))',
+	'drop-shadow(1px 22px 18px rgba(0, 0, 0, 0.28))',
+	'drop-shadow(0 0 14px rgba(255, 255, 255, 0.1))',
+].join(' ');
+
+const hoverBlurFilter = [
+	'drop-shadow(1px 18px 8px rgba(0, 0, 0, 0.5))',
+	'drop-shadow(1px 26px 16px rgba(0, 0, 0, 0.38))',
+	'drop-shadow(1px 34px 28px rgba(0, 0, 0, 0.32))',
+	'drop-shadow(1px 42px 48px rgba(0, 0, 0, 0.38))',
+	'drop-shadow(0 0 18px rgba(255, 255, 255, 0.45))',
+	'drop-shadow(0 0 36px rgba(255, 255, 255, 0.2))',
+].join(' ');
 ---
 
 <div class="hero-page">
@@ -25,14 +67,27 @@
 								fill="none"
 								aria-hidden="true"
 							>
-								<path
-									d="M 14 10 L 106 110 L 14 210"
-									stroke="currentColor"
-									stroke-width="22"
-									stroke-linecap="butt"
-									stroke-linejoin="miter"
-									stroke-miterlimit="8"
-								/>
+								<g style={`filter: ${restBlurFilter}`}>
+									{restCrispSteps.map((step) => (
+										<path
+											d={ARROW_PATH}
+											transform={`translate(1, ${step.dy})`}
+											stroke={step.color}
+											stroke-width="22"
+											stroke-linecap="butt"
+											stroke-linejoin="miter"
+											stroke-miterlimit="8"
+										/>
+									))}
+									<path
+										d={ARROW_PATH}
+										stroke="currentColor"
+										stroke-width="22"
+										stroke-linecap="butt"
+										stroke-linejoin="miter"
+										stroke-miterlimit="8"
+									/>
+								</g>
 							</svg>
 							<svg
 								class="hero-next-icon hero-next-icon--hover"
@@ -41,14 +96,27 @@
 								fill="none"
 								aria-hidden="true"
 							>
-								<path
-									d="M 14 10 L 106 110 L 14 210"
-									stroke="currentColor"
-									stroke-width="22"
-									stroke-linecap="butt"
-									stroke-linejoin="miter"
-									stroke-miterlimit="8"
-								/>
+								<g style={`filter: ${hoverBlurFilter}`}>
+									{hoverCrispSteps.map((step) => (
+										<path
+											d={ARROW_PATH}
+											transform={`translate(1, ${step.dy})`}
+											stroke={step.color}
+											stroke-width="22"
+											stroke-linecap="butt"
+											stroke-linejoin="miter"
+											stroke-miterlimit="8"
+										/>
+									))}
+									<path
+										d={ARROW_PATH}
+										stroke="currentColor"
+										stroke-width="22"
+										stroke-linecap="butt"
+										stroke-linejoin="miter"
+										stroke-miterlimit="8"
+									/>
+								</g>
 							</svg>
 						</span>
 					</a>
@@ -123,10 +191,11 @@
 		line-height: 0;
 		transform: rotateX(32deg) rotateY(-5deg) rotateZ(-1.5deg) translateY(-0.5rem);
 		transform-origin: 50% 55%;
-		transform-style: preserve-3d;
-		/* Filtry cieni są teraz statyczne, przeniesione na dwie warstwy SVG poniżej —
-		   animujemy tylko transform + opacity (tanie dla kompozytora), zamiast
-		   przeliczać cały 14-17-warstwowy łańcuch drop-shadow na każdą klatkę. */
+		/* Usunięte preserve-3d — nie ma tu zagnieżdżonych dzieci wymagających wspólnej
+		   przestrzeni 3D (to płaska ikona), a preserve-3d utrudnia Chromium tanie
+		   cache'owanie warstwy kompozytora podczas animacji transform. */
+		transform-style: flat;
+		will-change: transform;
 		transition: transform 0.45s cubic-bezier(0.34, 1.45, 0.52, 1);
 	}
 
@@ -140,11 +209,14 @@
 		outline-offset: 4px;
 	}
 
-	/* Wrapper trzymający obie warstwy ikony jedna na drugiej */
+	/* Wrapper trzymający obie warstwy ikony jedna na drugiej; własna warstwa
+	   kompozytora, żeby (znacznie mniejszy teraz) filtr rozmycia był
+	   cache'owany jako tekstura, a nie liczony na klatkę animacji rodzica. */
 	.hero-next-icon-stack {
 		position: relative;
 		display: block;
 		height: clamp(7rem, 18vw, 11.5rem);
+		will-change: transform;
 	}
 
 	/* Niższy chevron niż wcześniej; szerokość z viewBox */
@@ -154,52 +226,11 @@
 		width: auto;
 	}
 
-	/* Stan spoczynku — te same wartości drop-shadow co wcześniej, ale bez transition na filter */
-	.hero-next-icon--rest {
-		filter:
-			drop-shadow(1px 1px 0 #5c5c5c)
-			drop-shadow(1px 2px 0 #525252)
-			drop-shadow(1px 3px 0 #484848)
-			drop-shadow(1px 4px 0 #3f3f3f)
-			drop-shadow(1px 5px 0 #383838)
-			drop-shadow(1px 6px 0 #323232)
-			drop-shadow(1px 7px 0 #2c2c2c)
-			drop-shadow(1px 8px 0 #262626)
-			drop-shadow(1px 9px 0 #222222)
-			drop-shadow(1px 10px 0 #1c1c1c)
-			drop-shadow(1px 11px 0 #181818)
-			drop-shadow(1px 12px 2px rgba(0, 0, 0, 0.55))
-			drop-shadow(1px 16px 8px rgba(0, 0, 0, 0.4))
-			drop-shadow(1px 22px 18px rgba(0, 0, 0, 0.28))
-			drop-shadow(0 0 14px rgba(255, 255, 255, 0.1));
-	}
-
-	/* Stan hover — nałożona druga kopia, chowana/pokazywana przez opacity (tanie) zamiast
-	   interpolacji filtra (drogie). Wartości drop-shadow identyczne jak w oryginalnym :hover. */
 	.hero-next-icon--hover {
 		position: absolute;
 		inset: 0;
 		opacity: 0;
 		transition: opacity 0.4s ease;
-		filter:
-			drop-shadow(1px 1px 0 #5c5c5c)
-			drop-shadow(1px 2px 0 #525252)
-			drop-shadow(1px 3px 0 #484848)
-			drop-shadow(1px 4px 0 #3f3f3f)
-			drop-shadow(1px 5px 0 #383838)
-			drop-shadow(1px 6px 0 #323232)
-			drop-shadow(1px 7px 0 #2c2c2c)
-			drop-shadow(1px 8px 0 #262626)
-			drop-shadow(1px 9px 0 #222222)
-			drop-shadow(1px 10px 0 #1c1c1c)
-			drop-shadow(1px 11px 0 #181818)
-			drop-shadow(1px 12px 0 #141414)
-			drop-shadow(1px 18px 8px rgba(0, 0, 0, 0.5))
-			drop-shadow(1px 26px 16px rgba(0, 0, 0, 0.38))
-			drop-shadow(1px 34px 28px rgba(0, 0, 0, 0.32))
-			drop-shadow(1px 42px 48px rgba(0, 0, 0, 0.38))
-			drop-shadow(0 0 18px rgba(255, 255, 255, 0.45))
-			drop-shadow(0 0 36px rgba(255, 255, 255, 0.2));
 	}
 
 	.hero-next:hover .hero-next-icon--hover {
