@@ -199,9 +199,39 @@
 	.d2 path { stroke: #585858; }
 	.d1 path { stroke: #616161; }
 
+
 	.front path {
-		stroke: #fff;
-	}
+			stroke: white;
+
+			animation: arrowBreathing 8s ease-in-out infinite;
+
+			transition: filter .35s;
+		}
+
+
+		@keyframes arrowBreathing {
+
+			0% {
+				filter:
+					drop-shadow(0 0 4px rgba(255,255,255,.15))
+					drop-shadow(0 0 8px rgba(255,255,255,.08));
+			}
+
+			50% {
+				filter:
+					drop-shadow(0 0 12px rgba(255,255,255,.55))
+					drop-shadow(0 0 28px rgba(255,255,255,.35))
+					drop-shadow(0 0 45px rgba(255,255,255,.15));
+			}
+
+			100% {
+				filter:
+					drop-shadow(0 0 4px rgba(255,255,255,.15))
+					drop-shadow(0 0 8px rgba(255,255,255,.08));
+			}
+
+		}
+	
 	.hero-next::after {
 	content: "";
 	position: absolute;
@@ -259,13 +289,14 @@
 
 	}
 
-	.hero-next:hover .front path{
+	.hero-next:hover .front path {
+		animation-play-state: paused;
 
-    filter:
-        drop-shadow(0 0 8px rgba(255,255,255,.45))
-        drop-shadow(0 0 18px rgba(255,255,255,.25));
-
-}
+		filter:
+			drop-shadow(0 0 10px rgba(255,255,255,.7))
+			drop-shadow(0 0 25px rgba(255,255,255,.45))
+			drop-shadow(0 0 45px rgba(255,255,255,.25));
+	}
 
 	.hero-title {
 		margin: 0 0 0.75rem;
