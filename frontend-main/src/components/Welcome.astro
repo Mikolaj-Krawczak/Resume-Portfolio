@@ -1,47 +1,5 @@
 ---
 // Sekcja powitalna: układ 65% / 35%, tekst po lewej, zdjęcie z public/profilepic.jpg po prawej.
-
-const ARROW_PATH = 'M 14 10 L 106 110 L 14 210';
-
-// Warstwy bez rozmycia (blur = 0) — pieczone jako zwykłe, przesunięte kopie ścieżki
-// zamiast wywołań drop-shadow(). To są dokładnie te same kolory/offsety co wcześniej,
-// tylko renderowane jako tanie kształty wektorowe zamiast kosztownych przebiegów filtra.
-const restCrispSteps = [
-	{ dy: 1, color: '#5c5c5c' },
-	{ dy: 2, color: '#525252' },
-	{ dy: 3, color: '#484848' },
-	{ dy: 4, color: '#3f3f3f' },
-	{ dy: 5, color: '#383838' },
-	{ dy: 6, color: '#323232' },
-	{ dy: 7, color: '#2c2c2c' },
-	{ dy: 8, color: '#262626' },
-	{ dy: 9, color: '#222222' },
-	{ dy: 10, color: '#1c1c1c' },
-	{ dy: 11, color: '#181818' },
-];
-
-const hoverCrispSteps = [
-	...restCrispSteps,
-	{ dy: 12, color: '#141414' },
-];
-
-// Tylko te warstwy mają realne rozmycie — zostają jako filter, ale jest ich
-// dużo mniej niż w oryginalnym łańcuchu (4 zamiast 15, 6 zamiast 18).
-const restBlurFilter = [
-	'drop-shadow(1px 12px 2px rgba(0, 0, 0, 0.55))',
-	'drop-shadow(1px 16px 8px rgba(0, 0, 0, 0.4))',
-	'drop-shadow(1px 22px 18px rgba(0, 0, 0, 0.28))',
-	'drop-shadow(0 0 14px rgba(255, 255, 255, 0.1))',
-].join(' ');
-
-const hoverBlurFilter = [
-	'drop-shadow(1px 18px 8px rgba(0, 0, 0, 0.5))',
-	'drop-shadow(1px 26px 16px rgba(0, 0, 0, 0.38))',
-	'drop-shadow(1px 34px 28px rgba(0, 0, 0, 0.32))',
-	'drop-shadow(1px 42px 48px rgba(0, 0, 0, 0.38))',
-	'drop-shadow(0 0 18px rgba(255, 255, 255, 0.45))',
-	'drop-shadow(0 0 36px rgba(255, 255, 255, 0.2))',
-].join(' ');
 ---
 
 <div class="hero-page">
@@ -54,69 +12,46 @@ const hoverBlurFilter = [
 			<div class="hero-bottom-row">
 				<p class="hero-subtitle">this is my Portfolio & Resume</p>
 				<div class="hero-next-perspective">
-					<a
-						class="hero-next"
-						href="/resume"
-						aria-label="Continue to portfolio resume section"
-					>
-						<span class="hero-next-icon-stack">
-							<svg
-								class="hero-next-icon hero-next-icon--rest"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 120 220"
-								fill="none"
-								aria-hidden="true"
-							>
-								<g style={`filter: ${restBlurFilter}`}>
-									{restCrispSteps.map((step) => (
-										<path
-											d={ARROW_PATH}
-											transform={`translate(1, ${step.dy})`}
-											stroke={step.color}
-											stroke-width="22"
-											stroke-linecap="butt"
-											stroke-linejoin="miter"
-											stroke-miterlimit="8"
-										/>
-									))}
-									<path
-										d={ARROW_PATH}
-										stroke="currentColor"
-										stroke-width="22"
-										stroke-linecap="butt"
-										stroke-linejoin="miter"
-										stroke-miterlimit="8"
-									/>
-								</g>
+					<a class="hero-next" href="/resume" aria-label="Continue to portfolio resume section">
+						<span class="hero-arrow">
+							<svg class="layer d12" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
 							</svg>
-							<svg
-								class="hero-next-icon hero-next-icon--hover"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 120 220"
-								fill="none"
-								aria-hidden="true"
-							>
-								<g style={`filter: ${hoverBlurFilter}`}>
-									{hoverCrispSteps.map((step) => (
-										<path
-											d={ARROW_PATH}
-											transform={`translate(1, ${step.dy})`}
-											stroke={step.color}
-											stroke-width="22"
-											stroke-linecap="butt"
-											stroke-linejoin="miter"
-											stroke-miterlimit="8"
-										/>
-									))}
-									<path
-										d={ARROW_PATH}
-										stroke="currentColor"
-										stroke-width="22"
-										stroke-linecap="butt"
-										stroke-linejoin="miter"
-										stroke-miterlimit="8"
-									/>
-								</g>
+							<svg class="layer d11" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d10" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d9" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d8" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d7" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d6" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d5" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d4" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d3" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d2" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer d1" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
+							</svg>
+							<svg class="layer front" viewBox="0 0 120 220" aria-hidden="true">
+								<path d="M14 10 L106 110 L14 210" />
 							</svg>
 						</span>
 					</a>
@@ -183,24 +118,33 @@ const hoverBlurFilter = [
 	}
 
 	.hero-next {
-		display: block;
-		color: #f5f5f5;
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		color: white;
 		text-decoration: none;
-		padding: 0.35rem 0.5rem;
-		margin: -0.35rem -0.5rem;
-		line-height: 0;
-		transform: rotateX(32deg) rotateY(-5deg) rotateZ(-1.5deg) translateY(-0.5rem);
-		transform-origin: 50% 55%;
-		/* Usunięte preserve-3d — nie ma tu zagnieżdżonych dzieci wymagających wspólnej
-		   przestrzeni 3D (to płaska ikona), a preserve-3d utrudnia Chromium tanie
-		   cache'owanie warstwy kompozytora podczas animacji transform. */
-		transform-style: flat;
-		will-change: transform;
+
+		perspective: 1000px;
+
+		transform:
+			rotateX(32deg)
+			rotateY(-5deg)
+			rotateZ(-1.5deg)
+			translateY(-8px);
+
 		transition: transform 0.45s cubic-bezier(0.34, 1.45, 0.52, 1);
+		will-change: transform;
 	}
 
 	.hero-next:hover {
-		transform: rotateX(26deg) rotateY(-3deg) rotateZ(-0.5deg) translateX(1.125rem) translateY(-1.45rem)
+		transform:
+			rotateX(26deg)
+			rotateY(-3deg)
+			rotateZ(-0.5deg)
+			translateX(18px)
+			translateY(-20px)
 			scale(1.08);
 	}
 
@@ -209,33 +153,119 @@ const hoverBlurFilter = [
 		outline-offset: 4px;
 	}
 
-	/* Wrapper trzymający obie warstwy ikony jedna na drugiej; własna warstwa
-	   kompozytora, żeby (znacznie mniejszy teraz) filtr rozmycia był
-	   cache'owany jako tekstura, a nie liczony na klatkę animacji rodzica. */
-	.hero-next-icon-stack {
+	.hero-arrow {
 		position: relative;
+    		width:90px;
+    	height:180px;
 		display: block;
-		height: clamp(7rem, 18vw, 11.5rem);
-		will-change: transform;
 	}
 
-	/* Niższy chevron niż wcześniej; szerokość z viewBox */
-	.hero-next-icon {
-		display: block;
-		height: clamp(7rem, 18vw, 11.5rem);
-		width: auto;
-	}
-
-	.hero-next-icon--hover {
+	.layer {
 		position: absolute;
 		inset: 0;
-		opacity: 0;
-		transition: opacity 0.4s ease;
+		overflow: visible;
 	}
 
-	.hero-next:hover .hero-next-icon--hover {
-		opacity: 1;
+	.layer path {
+		fill: none;
+		stroke-width: 22;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
 	}
+
+	.d12 { transform: translate(1px, 12px); }
+	.d11 { transform: translate(1px, 11px); }
+	.d10 { transform: translate(1px, 10px); }
+	.d9 { transform: translate(1px, 9px); }
+	.d8 { transform: translate(1px, 8px); }
+	.d7 { transform: translate(1px, 7px); }
+	.d6 { transform: translate(1px, 6px); }
+	.d5 { transform: translate(1px, 5px); }
+	.d4 { transform: translate(1px, 4px); }
+	.d3 { transform: translate(1px, 3px); }
+	.d2 { transform: translate(1px, 2px); }
+	.d1 { transform: translate(1px, 1px); }
+
+	.d12 path { stroke: #181818; }
+	.d11 path { stroke: #1d1d1d; }
+	.d10 path { stroke: #222; }
+	.d9 path { stroke: #262626; }
+	.d8 path { stroke: #2c2c2c; }
+	.d7 path { stroke: #323232; }
+	.d6 path { stroke: #383838; }
+	.d5 path { stroke: #3f3f3f; }
+	.d4 path { stroke: #474747; }
+	.d3 path { stroke: #505050; }
+	.d2 path { stroke: #585858; }
+	.d1 path { stroke: #616161; }
+
+	.front path {
+		stroke: #fff;
+	}
+	.hero-next::after {
+	content: "";
+	position: absolute;
+
+	left: 50%;
+	top: 50%;
+
+	width: 170px;
+	height: 260px;
+
+	transform:
+		translate(-50%, -50%)
+		scale(.75);
+
+	pointer-events: none;
+
+	opacity: 0;
+
+	background:
+		radial-gradient(
+			ellipse,
+			rgba(255,255,255,.14) 0%,
+			rgba(255,255,255,.08) 28%,
+			rgba(255,255,255,.035) 50%,
+			transparent 75%
+		);
+
+	filter: blur(18px);
+
+	border-radius: 50%;
+
+	transition:
+		opacity .35s ease,
+		transform .35s ease;
+}
+		
+	.hero-next:hover::after{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+
+}
+
+	.front path{
+
+		stroke:white;
+
+		filter:
+			drop-shadow(0 0 6px rgba(255,255,255,.25));
+
+		transition:filter .35s;
+
+	}
+
+	.hero-next:hover .front path{
+
+    filter:
+        drop-shadow(0 0 8px rgba(255,255,255,.45))
+        drop-shadow(0 0 18px rgba(255,255,255,.25));
+
+}
 
 	.hero-title {
 		margin: 0 0 0.75rem;
@@ -361,12 +391,6 @@ const hoverBlurFilter = [
 		.hero-next:hover {
 			transform: rotateX(24deg) rotateY(-3deg) rotateZ(-0.5deg) translateX(0.85rem) translateY(-0.95rem)
 				scale(1.07);
-		}
-
-		.hero-next-icon-stack,
-		.hero-next-icon {
-			height: clamp(5.75rem, 30vw, 8.5rem);
-			width: auto;
 		}
 
 		.hero-photo-column {
