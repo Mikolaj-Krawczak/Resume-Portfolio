@@ -1,0 +1,133 @@
+---
+// TODO: jeśli dojdą screeny/GIF-y z działania appki, dorzuć je tu jako kolejne <img>/<video>.
+const title = "Rubik's Sensei";
+const heroSrc = '/images/projects/rubiks-sensei-thumb.png';
+const downloadSrc = 'https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/download/0.1/RubikSensei.exe';
+---
+
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Mikołaj Krawczak</title>
+  </head>
+  <body>
+    <main class="project-page">
+      <a class="back-link" href="/resume#projects">&larr; Wróć do portfolio</a>
+
+      <h1 class="project-page-title">{title}</h1>
+
+      <div class="project-page-hero">
+        <img src={heroSrc} alt={`${title} — zrzut ekranu`} />
+      </div>
+
+      <div class="project-page-body">
+        <p>
+          Demo version of a desktop application made for learning and training with the
+          Rubik's Cube. Download the .exe file and check it yourself.
+        </p>
+
+        <a
+          class="download-btn"
+          href={downloadSrc}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            class="download-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 3v12" />
+            <path d="M7 10l5 5 5-5" />
+            <path d="M5 21h14" />
+          </svg>
+          Download .exe
+        </a>
+      </div>
+    </main>
+
+    <style>
+      :global(body) {
+        margin: 0;
+        background: #101010;
+        color: #ffffff;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .project-page {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 4vw, 3rem);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .back-link:hover {
+        color: #ffffff;
+      }
+
+      .project-page-title {
+        margin: 0 0 1.5rem;
+        font-size: clamp(2rem, 5vw, 2.75rem);
+        font-weight: 700;
+      }
+
+      .project-page-hero {
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .project-page-hero img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .project-page-body {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin-top: 0.75rem;
+        padding: 0.75rem 1.35rem;
+        border-radius: 12px;
+        background: #ffffff;
+        color: #101010;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .download-btn:hover,
+      .download-btn:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 26px rgba(255, 255, 255, 0.18);
+        background: #f0f0f0;
+      }
+
+      .download-icon {
+        width: 18px;
+        height: 18px;
+      }
+    </style>
+  </body>
+</html>

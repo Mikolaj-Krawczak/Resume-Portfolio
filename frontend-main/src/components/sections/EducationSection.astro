@@ -84,6 +84,14 @@ const educationEntries: EducationEntry[] = [
     ))}
   </ul>
 
+  <!--
+    Modal deklarowany tu, w markupie sekcji, dla wygody — ale w skrypcie poniżej
+    jest w locie przenoszony (`appendChild`) do document.body. Dzięki temu jego
+    `position: fixed` liczy się względem CAŁEGO viewportu, a nie względem
+    najbliższego przodka z transform/filter/perspective (który tworzy nowy
+    "containing block" i psuje fixed — to był powód, czemu blur obejmował
+    tylko sekcję Education).
+  -->
   <div class="diploma-modal" data-diploma-modal hidden>
     <div class="diploma-modal-backdrop" data-diploma-close></div>
     <div class="diploma-modal-dialog" role="dialog" aria-modal="true" aria-label="Diploma preview">
@@ -195,10 +203,13 @@ const educationEntries: EducationEntry[] = [
     transform: translateY(0);
   }
 
+  /* z-index podbity na wszelki wypadek — teraz element i tak wisi bezpośrednio
+     pod <body>, więc to głównie zabezpieczenie, gdyby coś innego na stronie
+     też miało bardzo wysoki z-index. */
   .diploma-modal {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -255,8 +266,16 @@ const educationEntries: EducationEntry[] = [
 </style>
 
 <script>
-  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-diploma-trigger]');
   const modal = document.querySelector<HTMLDivElement>('[data-diploma-modal]');
+
+  // Portal: przenosimy modal bezpośrednio pod <body>, żeby uciec spod
+  // wpływu jakiegokolwiek przodka z transform/filter/perspective/contain,
+  // który tworzyłby własny "containing block" i psuł position: fixed.
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
+  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-diploma-trigger]');
   const modalImage = modal?.querySelector<HTMLImageElement>('[data-diploma-image]');
   const closeEls = modal?.querySelectorAll<HTMLElement>('[data-diploma-close]');
 

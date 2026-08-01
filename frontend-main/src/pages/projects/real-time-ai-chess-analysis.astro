@@ -1,0 +1,82 @@
+---
+// TODO: podmień treść na prawdziwy opis projektu, screeny, linki do repo/demo itd.
+const title = "Real-time AI Chess Analysis";
+const heroSrc = '/images/projects/chess-analysis-thumb.png';
+---
+
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Mikołaj Krawczak</title>
+  </head>
+  <body>
+    <main class="project-page">
+      <a class="back-link" href="/resume#projects">&larr; Wróć do portfolio</a>
+
+      <h1 class="project-page-title">{title}</h1>
+
+      <div class="project-page-hero">
+        <img src={heroSrc} alt={`${title} — zrzut ekranu`} />
+      </div>
+
+      <div class="project-page-body">
+        <p>
+          Opis projektu — uzupełnij. Co to jest, jaki problem rozwiązuje, jakich technologii
+          użyłeś, i (jeśli masz) link do repo / działającego dema.
+        </p>
+      </div>
+    </main>
+
+    <style>
+      :global(body) {
+        margin: 0;
+        background: #101010;
+        color: #ffffff;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .project-page {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 4vw, 3rem);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .back-link:hover {
+        color: #ffffff;
+      }
+
+      .project-page-title {
+        margin: 0 0 1.5rem;
+        font-size: clamp(2rem, 5vw, 2.75rem);
+        font-weight: 700;
+      }
+
+      .project-page-hero {
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .project-page-hero img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .project-page-body {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.85);
+      }
+    </style>
+  </body>
+</html>
