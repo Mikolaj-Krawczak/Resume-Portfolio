@@ -123,12 +123,27 @@ const projects: ProjectEntry[] = [
     font-size: 1.1rem;
     font-weight: 700;
     color: #ffffff;
-    transition: color 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s ease;
+    font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+    position: relative;
+    padding-bottom: 0.25rem;
   }
 
-  .project-card:hover .project-title,
-  .project-card:focus-visible .project-title {
-    color: #9fd8ff;
+  /* Underline effect identical to site header nav */
+  .project-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), #ffffff);
+    transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .project-card:hover .project-title::after,
+  .project-card:focus-visible .project-title::after {
+    width: 100%;
   }
 
   .project-description {

@@ -15,6 +15,7 @@ const galleryImages = [
 
 const youtubeUrl = "https://www.youtube.com/watch?v=oDdyaDyaTi8";
 const youtubeThumbnail = "/images/projects/chess-analysis.png";
+import ParticleNetwork from '../../components/ParticleNetwork.astro';
 ---
 
 <html lang="en">
@@ -25,6 +26,7 @@ const youtubeThumbnail = "/images/projects/chess-analysis.png";
   </head>
 
   <body>
+    <ParticleNetwork />
     <main class="project-page">
       <a class="back-link" href="/resume#projects">&larr; Back to portfolio</a>
 
@@ -99,12 +101,17 @@ const youtubeThumbnail = "/images/projects/chess-analysis.png";
       </div>
     </main>
 
-    <style>
-      :global(body) {
+      <style>
+      :global(html), :global(body) {
         margin: 0;
-        background: #101010;
+        background-color: #101010;
         color: #fff;
-        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .project-page {
+        position: relative;
+        z-index: 1;
       }
 
       .project-page {

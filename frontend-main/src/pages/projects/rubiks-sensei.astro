@@ -11,6 +11,7 @@ const gallery = [
   "/images/projects/Scramble.gif",
   "/images/projects/Pyraminx.gif",
 ];
+import ParticleNetwork from '../../components/ParticleNetwork.astro';
 ---
 
 <html lang="en">
@@ -21,6 +22,7 @@ const gallery = [
   </head>
 
   <body>
+    <ParticleNetwork />
     <main class="project-page">
       <a class="back-link" href="/resume#projects">&larr; Back to portfolio</a>
 
@@ -73,15 +75,17 @@ const gallery = [
       </div>
     </main>
 
-    <style>
-      :global(body) {
+      <style>
+      :global(html), :global(body) {
         margin: 0;
-        background: #101010;
+        background-color: #101010;
         color: #ffffff;
-        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-family: 'Halfre', ui-sans-serif, system-ui, sans-serif;
       }
 
       .project-page {
+        position: relative;
+        z-index: 1;
         max-width: 1100px;
         margin: 0 auto;
         padding: clamp(1.5rem, 4vw, 3rem);
