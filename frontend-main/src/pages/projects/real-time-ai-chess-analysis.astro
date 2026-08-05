@@ -1,30 +1,101 @@
 ---
-// TODO: podmień treść na prawdziwy opis projektu, screeny, linki do repo/demo itd.
+// TODO: Replace the placeholder images and YouTube link with the real assets.
 const title = "Real-time AI Chess Analysis";
-const heroSrc = '/images/projects/chess-analysis-thumb.png';
+const heroSrc = "/images/projects/chess-analysis-thumb.png";
+
+const topImages = [
+  "/images/projects/chess-analysis-1.png",
+  "/images/projects/chess-analysis-2.png",
+];
+
+const galleryImages = [
+  "/images/projects/chess-analysis-3.png",
+  "/images/projects/chess-analysis-4.png",
+];
+
+const youtubeUrl = "https://www.youtube.com/watch?v=oDdyaDyaTi8";
+const youtubeThumbnail = "/images/projects/chess-analysis.png";
 ---
 
-<html lang="pl">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Mikołaj Krawczak</title>
   </head>
+
   <body>
     <main class="project-page">
-      <a class="back-link" href="/resume#projects">&larr; Wróć do portfolio</a>
+      <a class="back-link" href="/resume#projects">&larr; Back to portfolio</a>
 
       <h1 class="project-page-title">{title}</h1>
 
-      <div class="project-page-hero">
-        <img src={heroSrc} alt={`${title} — zrzut ekranu`} />
-      </div>
+  
 
       <div class="project-page-body">
         <p>
-          Opis projektu — uzupełnij. Co to jest, jaki problem rozwiązuje, jakich technologii
-          użyłeś, i (jeśli masz) link do repo / działającego dema.
+          This project combines <strong>computer vision</strong>,
+          <strong>machine learning</strong>, and a self-hosted chess engine to
+          provide real-time analysis of over-the-board chess games.
         </p>
+
+        <p>
+          Using a camera positioned above the chessboard, the system detects
+          every move played during a live game. After each move, the current
+          board position is automatically reconstructed and sent to a
+          <strong>self-hosted chess engine</strong>, which immediately evaluates
+          the position and returns an analysis, allowing players to follow the
+          game with professional-level insights in real time.
+        </p>
+
+        <p>
+          Once the game is finished, the application automatically generates and
+          copies the complete PGN notation, making it easy to build a personal
+          archive of games and review previous matches.
+        </p>
+
+        <p>
+          I also created a detailed video explaining the entire development
+          process, including the computer vision pipeline, machine learning
+          model, and the overall system architecture. You can watch it on
+          YouTube using the link below.
+        </p>
+
+        <!-- Two large images
+        <section class="top-gallery">
+          <img src={topImages[0]} alt="Computer vision board detection" />
+          <img src={topImages[1]} alt="Live chess analysis interface" />
+        </section>
+
+        Two-column gallery 
+        <section class="gallery">
+          <img src={galleryImages[0]} alt="Board recognition" />
+          <img src={galleryImages[1]} alt="Engine evaluation" />
+        </section>
+        -->
+
+        
+        <section class="video-section">
+          <a
+            href={youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="video-link"
+          >
+            <img
+              src={youtubeThumbnail}
+              alt="Watch the full project video on YouTube"
+            />
+
+            <div class="play-button">
+              ▶
+            </div>
+          </a>
+
+          <p class="video-caption">
+            Watch the full project breakdown on YouTube.
+          </p>
+        </section>
       </div>
     </main>
 
@@ -32,12 +103,12 @@ const heroSrc = '/images/projects/chess-analysis-thumb.png';
       :global(body) {
         margin: 0;
         background: #101010;
-        color: #ffffff;
+        color: #fff;
         font-family: ui-sans-serif, system-ui, sans-serif;
       }
 
       .project-page {
-        max-width: 860px;
+        max-width: 1100px;
         margin: 0 auto;
         padding: clamp(1.5rem, 4vw, 3rem);
       }
@@ -45,37 +116,100 @@ const heroSrc = '/images/projects/chess-analysis-thumb.png';
       .back-link {
         display: inline-block;
         margin-bottom: 1.5rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255,255,255,.7);
         text-decoration: none;
-        font-size: 0.95rem;
       }
 
       .back-link:hover {
-        color: #ffffff;
+        color: #fff;
       }
 
       .project-page-title {
-        margin: 0 0 1.5rem;
-        font-size: clamp(2rem, 5vw, 2.75rem);
-        font-weight: 700;
+        margin-bottom: 1.5rem;
+        font-size: clamp(2rem,5vw,2.8rem);
       }
 
       .project-page-hero {
-        border-radius: 14px;
         overflow: hidden;
+        border-radius: 16px;
         margin-bottom: 2rem;
       }
 
       .project-page-hero img {
-        display: block;
         width: 100%;
-        height: auto;
+        display: block;
       }
 
       .project-page-body {
         font-size: 1.05rem;
-        line-height: 1.7;
-        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.8;
+        color: rgba(255,255,255,.86);
+      }
+
+      .top-gallery,
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1.5rem;
+        margin: 3rem auto;
+      }
+
+      .top-gallery img,
+      .gallery img {
+        width: 100%;
+        border-radius: 16px;
+        display: block;
+        box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+
+      .video-section {
+        margin-top: 4rem;
+        text-align: center;
+      }
+
+      .video-link {
+        position: relative;
+        display: inline-block;
+        width: min(900px,100%);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .video-link img {
+        width: 100%;
+        display: block;
+      }
+
+      .play-button {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5rem;
+        color: white;
+        background: rgba(0,0,0,.25);
+        transition: background .2s;
+      }
+
+      .video-link:hover .play-button {
+        background: rgba(0,0,0,.45);
+      }
+
+      .video-caption {
+        margin-top: 1rem;
+        color: rgba(255,255,255,.7);
+      }
+
+      @media (max-width: 768px) {
+        .top-gallery,
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .play-button {
+          font-size: 3rem;
+        }
       }
     </style>
   </body>

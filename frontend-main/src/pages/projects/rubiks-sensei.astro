@@ -1,32 +1,51 @@
 ---
-// TODO: jeśli dojdą screeny/GIF-y z działania appki, dorzuć je tu jako kolejne <img>/<video>.
+// TODO: Replace the placeholder paths below with your actual screenshots/GIFs.
 const title = "Rubik's Sensei";
-const heroSrc = '/images/projects/rubiks-sensei-thumb.png';
-const downloadSrc = 'https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/download/0.1/RubikSensei.exe';
+const heroSrc = "/images/projects/rubiks-sensei-thumb.png";
+const downloadSrc =
+  "https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/download/0.1/RubikSensei.exe";
+
+const gallery = [
+  "/images/projects/menu-rubik.png",
+  "/images/projects/2x2.png",
+  "/images/projects/Scramble.gif",
+  "/images/projects/Pyraminx.gif",
+];
 ---
 
-<html lang="pl">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Mikołaj Krawczak</title>
   </head>
+
   <body>
     <main class="project-page">
-      <a class="back-link" href="/resume#projects">&larr; Wróć do portfolio</a>
+      <a class="back-link" href="/resume#projects">&larr; Back to portfolio</a>
 
       <h1 class="project-page-title">{title}</h1>
 
-      <div class="project-page-hero">
-        <img src={heroSrc} alt={`${title} — zrzut ekranu`} />
-      </div>
+    
 
       <div class="project-page-body">
         <p>
-          Demo version of a desktop application made for learning and training with the
-          Rubik's Cube. Download the .exe file and check it yourself.
+          <strong>Rubik's Sensei</strong> is a desktop application designed to
+          help users learn, practice, and improve their Rubik's Cube solving
+          skills. The application provides an intuitive interface for training
+          algorithms and developing solving techniques in a interactive way.
         </p>
 
+        <p>
+          Download the demo version below and try it yourself.
+        </p>
+
+         <section class="gallery">
+          <img src={gallery[0]} alt="Rubik's Sensei screenshot 1" />
+          <img src={gallery[1]} alt="Rubik's Sensei screenshot 2" />
+          <img src={gallery[2]} alt="Rubik's Sensei demo GIF 1" />
+          <img src={gallery[3]} alt="Rubik's Sensei demo GIF 2" />
+        </section>
         <a
           class="download-btn"
           href={downloadSrc}
@@ -47,8 +66,10 @@ const downloadSrc = 'https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/
             <path d="M7 10l5 5 5-5" />
             <path d="M5 21h14" />
           </svg>
-          Download .exe
+          Download Demo (.exe)
         </a>
+
+       
       </div>
     </main>
 
@@ -61,7 +82,7 @@ const downloadSrc = 'https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/
       }
 
       .project-page {
-        max-width: 860px;
+        max-width: 1100px;
         margin: 0 auto;
         padding: clamp(1.5rem, 4vw, 3rem);
       }
@@ -75,58 +96,87 @@ const downloadSrc = 'https://github.com/Mikolaj-Krawczak/Rubiks-Sensei/releases/
       }
 
       .back-link:hover {
-        color: #ffffff;
+        color: #fff;
       }
 
       .project-page-title {
         margin: 0 0 1.5rem;
-        font-size: clamp(2rem, 5vw, 2.75rem);
+        font-size: clamp(2rem, 5vw, 2.8rem);
         font-weight: 700;
       }
 
       .project-page-hero {
-        border-radius: 14px;
+        border-radius: 16px;
         overflow: hidden;
         margin-bottom: 2rem;
       }
 
       .project-page-hero img {
-        display: block;
         width: 100%;
-        height: auto;
+        display: block;
       }
 
       .project-page-body {
         font-size: 1.05rem;
-        line-height: 1.7;
+        line-height: 1.8;
         color: rgba(255, 255, 255, 0.85);
       }
 
       .download-btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
-        margin-top: 0.75rem;
-        padding: 0.75rem 1.35rem;
+        gap: 0.6rem;
+        margin: 1rem 0 3rem;
+        padding: 0.8rem 1.4rem;
         border-radius: 12px;
-        background: #ffffff;
+        background: #fff;
         color: #101010;
         font-weight: 700;
-        font-size: 0.95rem;
         text-decoration: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        transition: all 0.2s ease;
       }
 
       .download-btn:hover,
       .download-btn:focus-visible {
         transform: translateY(-2px);
-        box-shadow: 0 10px 26px rgba(255, 255, 255, 0.18);
         background: #f0f0f0;
+        box-shadow: 0 10px 24px rgba(255, 255, 255, 0.15);
       }
 
       .download-icon {
         width: 18px;
         height: 18px;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.75rem;
+        justify-content: center;
+        align-items: center;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .gallery img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 16px;
+        display: block;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        transition: transform 0.25s ease;
+      }
+
+      .gallery img:hover {
+        transform: scale(1.02);
+      }
+
+      @media (max-width: 768px) {
+        .gallery {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </body>
